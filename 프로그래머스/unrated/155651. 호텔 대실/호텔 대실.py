@@ -1,21 +1,19 @@
-from heapq import heappop, heappush
-
 def solution(book_time):
-    answer = 1
-    
-    # "HH:MM" → HH * 60 + MM
-    book_time_ref = [(int(s[:2]) * 60 + int(s[3:]), int(e[:2]) * 60 + int(e[3:])) for s, e in book_time]
-    book_time_ref.sort()
-    
-    heap = []
-    for s, e in book_time_ref:
-        if not heap:
-            heappush(heap,e)
+    rooms = []
+    book_time = sorted([[int(n[0].split(':')[0]) * 60 + int(n[0].split(':')[1]), int(n[1].split(':')[0]) * 60 + int(n[1].split(':')[1])] for n in book_time], key=lambda x: x[0])
+
+    for b in book_time:
+
+        if not rooms:
+            rooms.append(b[1])
             continue
-        if heap[0] <= s:
-            heappop(heap)
-        else:
-            answer += 1
-        heappush(heap,e+10)
-    
-    return answer
+        for i, r in enumerate(rooms):
+            if b[0] >= (r + 10):
+                rooms.remove(r)
+                rooms.append(b[1])
+                break
+            if i == len(rooms) - 1:
+                rooms.append(b[1])
+                break
+
+    return len(rooms)
