@@ -1,9 +1,6 @@
 from collections import deque
 
 def dfs(x, y, visited, maps):
-    
-    if visited[x][y]:
-        return
     dx = [1, -1, 0, 0]
     dy = [0, 0, 1, -1]
     queue = deque()
@@ -28,7 +25,7 @@ def solution(maps):
     
     for i1, r in enumerate(maps):
         for i2, c in enumerate(r):
-            if c != 'X':
+            if c != 'X' and not visited[i1][i2]:
                 answer.append(dfs(i1, i2, visited, maps))
 
     if not answer:
